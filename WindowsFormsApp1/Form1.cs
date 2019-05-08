@@ -51,8 +51,10 @@ namespace WindowsFormsApp1
         //새로고침
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("좆같노");
+            //MessageBox.Show("좆같노");
             //webBrowser1.Refresh();
+            string tmp = " https://www.google.com/search?q=" + toolStripTextBox1.Text + "&& aqs = chrome..69i57j0j69i61j0j69i61l2.7224j0j4 & sourceid = chrome & ie = UTF - 8";
+            webBrowser1.Navigate(tmp);
         }
 
         //홈으로가기.
