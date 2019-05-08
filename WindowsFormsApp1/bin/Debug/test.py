@@ -26,7 +26,8 @@ def first(sen):
 
     for key, value in sub.items():
         if value == 'N':
-          li.append(key)
+            sub.items()
+            li.append(key)
         elif value == 'F':
             li.append(key)
     reject(li)
@@ -71,7 +72,7 @@ def filetype(file):
         elif file[i] == "pdf":
             file[i] = "filetpye:pdf "
             fee.append(file[i])
-        elif file[i] == "doc": 
+        elif file[i] == "doc":
             file[i] = "filetpye:doc "
             fee.append(file[i])
         else:
@@ -108,3 +109,4 @@ def hash(hash):
     complete(fee)
 
 check_sen(sen)
+print("end")
