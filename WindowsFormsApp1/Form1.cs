@@ -8,15 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Moda.Korean.TwitterKoreanProcessorCS;
-
+using System.Data.SqlClient; //SQL SERVER LOCAL DB
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        public static Boolean SenetenceSearch = false;
+        
+
         #region Function
-        //-----------------------< Function >------------//
-        public bool isContainKorean(string s) {
+        //-----------------------< Function >------------------------//
+        public bool IsContainKorean(string s) {
             //한글 확인 함수
             char[] charArr = s.ToCharArray();
             foreach (char c in charArr) {
@@ -27,108 +28,173 @@ namespace WindowsFormsApp1
             return false;
         }
 
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e) // 브라우저 처음에 ㄷ
+        private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e) //1브라우저 처음에 ㄷ
         {
             //브라우저가 표시완료하면 나오게 하는 함수
-            this.Text = webBrowser1.DocumentText + "-브라우저 샘플입니다";
-            toolStripTextBox1.Text = webBrowser1.Document.Url.ToString();
+            
+            //textBox1.Text = webBrowser1.Document.Url.ToString();
         }
-        //-----------------------< Function >------------//
+
+        private void WebBrowser2_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
+        }
+
+        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.Button6_Click(sender, e);
+            }
+        } //  텍스트창에서 엔터키 눌렀을때 호출 함수
+
+        private void CheckWeb(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked & !checkBox2.Checked)// 히스토리없이 webBrowser1만 보여지고 있었다면
+            {
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 0;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+
+            }
+            else if (checkBox1.Checked & checkBox2.Checked) // 히스토리가 보여지고 있었다면
+            {
+                checkBox2.Checked = false;
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 0;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+
+            }
+            else
+            { // 체크해제
+                tableLayoutPanel1.ColumnCount = 1;
+            }
+        } // webBrowser2 호출
+
+        private void CheckHisory(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked & !checkBox1.Checked)
+            { //webBrowser2 없이 webBrowser1만 보여지고 있었다면
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 1;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            }
+            else if (checkBox2.Checked & checkBox1.Checked)
+            {
+                checkBox1.Checked = false;
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 1;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            }
+            else
+            {
+                tableLayoutPanel1.ColumnCount = 1;
+            }
+
+        } // History 호출
+
+
+        //-----------------------< Function >------------------------//
         #endregion /Function
 
         #region Form
-        //-----------------------< Form >-----------------//
+        //-----------------------< Form >-----------------------------//
         public Form1()
         {
             //Form1.Designer를 불러서 UI를 구성하게하는 필수적인 친구
             InitializeComponent();
-            
+            webBrowser2.Visible = true;
+            tableLayoutPanel1.ColumnCount = 1;
+            this.Text = "H browser";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            Load_List(); //시작할 때 데이터베이스 연동
         }
 
-        //-----------------------< Form >-----------------//
+        //-----------------------< /Form >-----------------------------//
         #endregion /Form
 
-      
-        #region toolbar
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        #region Button
+        //-----------------------< region button >------------------------//
+
+        private void Button2_Click(object sender, EventArgs e) 
         {
             webBrowser1.GoBack();
-        }
+        }// 뒤로가기
 
-        //앞으로가기
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e) 
         {
             webBrowser1.GoForward();
-        }
+        }// 앞으로가기
 
-        //새로고침
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e) 
         {
-
             webBrowser1.Refresh();
-        }
+        }// 새로고침
 
-        //홈으로가기.
-        private void toolStripButton4_Click(object sender, EventArgs e)
+        private void Button5_Click(object sender, EventArgs e)
         {
             webBrowser1.GoHome();
-        }
+        } // 홈으로 가기
 
-        //go 버튼 누르면 그 url로 가기
-        private void toolStripButton5_Click(object sender, EventArgs e)
+        private void Button6_Click(object sender, EventArgs e)
         {
             if (checkBox1.Checked) // 문장검색 기능 키면 파싱해서 검색보내버리기
             {
-                string tmp = "https://www.google.com/search?&q=" + StemSample2(toolStripTextBox1.Text);
-                webBrowser1.Navigate(tmp);
-                //MessageBox.Show(StemSample2(toolStripTextBox1.Text));
-
+                string searching_data = textBox1.Text; //게이
+                Search_Add_Entry_to_Database(searching_data); // 한글 검색 내용을 Database에 저장
+                string tmp1 = "https://www.google.com/search?&q=" + StemSample2(searching_data);
+                string tmp2 = "https://www.google.com/search?&q=" + searching_data;
+                webBrowser1.Navigate(tmp1);
+                webBrowser2.Navigate(tmp2);
+                
             }
-            else { // 문장검색이 아니라면
-                if (isContainKorean(toolStripTextBox1.Text))
+            else // 문장검색이 아니라면
+            {
+                if (IsContainKorean(textBox1.Text))
                 { // 한글을 친거면
-                    string tmp = " https://www.google.com/search?q=" + toolStripTextBox1.Text + "&& aqs = chrome..69i57j0j69i61j0j69i61l2.7224j0j4 & sourceid = chrome & ie = UTF - 8";
+                    string tmp = " https://www.google.com/search?q=" + textBox1.Text + "&& aqs = chrome..69i57j0j69i61j0j69i61l2.7224j0j4 & sourceid = chrome & ie = UTF - 8";
                     webBrowser1.Navigate(tmp);
                 }
                 else
                 {
-
-                    webBrowser1.Navigate(toolStripTextBox1.Text);
+                    webBrowser1.Navigate(textBox1.Text);
                 }
             }
-        }
-        private void toolStripTextBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.toolStripButton5_Click(sender, e);
-            }
-        }
-        private void toolStripButton6_Click(object sender, EventArgs e)
-        {
-            string tmp = " 테스트용 버튼";
-            MessageBox.Show(tmp);
-        }
-        #endregion /toolbar
+        } // 체크박스 처리버튼
 
-        #region Button
-        //-----------------------< region button >------------//
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            Form2 dlg = new Form2();
-            dlg.ShowDialog();      
-        }
+            Add_Entry_to_Database();
+        } // 추가하기
 
-        //-----------------------< /region button >------------//
+        private void Button8_Click(object sender, EventArgs e)
+        {
+            Update_Entry_in_Database();
+        } // 변경 하기
+
+        private void Button7_Click(object sender, EventArgs e)
+        {
+            Delete_Row_of_Database();
+        } // 삭제하기
+
+
+
+        //-----------------------< /region button >------------------------//
         #endregion /Button
 
         #region Parsing_Data
-        //-----------------------< parsing data >-----------------//
+        //-----------------------< parsing data >-----------------------------//
         public string StemSample2(string input_Search_Data)
         {
             var tokens = TwitterKoreanProcessorCS.Tokenize(
@@ -257,9 +323,138 @@ namespace WindowsFormsApp1
 
 
         }
-        //-----------------------< parsing data >-----------------//
+
+
+
+
+        //-----------------------< parsing data >-----------------------------//
         #endregion /Parsing_Data
+
+        #region Database
+
+        private void Load_List()
+        {
+            //----------------< load_list>--------------//
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            string sql_Text = "SELECT * FROM tbl_Search";
+
+            DataTable tbl = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(sql_Text, cn_connection);
+            adapter.Fill(tbl);
+            //-< Database >
+
+
+            //< show >
+            listBox1.DisplayMember = "SearchData";
+            listBox1.ValueMember = "indexS";
+
+            listBox1.DataSource = tbl;
+            //< /show >
+            //----------------< /load_list>--------------//
+        }
+
+        private void Add_Entry_to_Database()
+        {
+            //----------------< add_Entry_to_Database>--------------//
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            string sNew_Search = textBox2.Text;
+            string sql_Text = "INSERT INTO tbl_Search ([SearchData]) VALUES(N'" + sNew_Search + "')";
+
+            SqlCommand cmd_Command = new SqlCommand(sql_Text, cn_connection);
+            cmd_Command.ExecuteNonQuery();
+            //-< Database >
+
+            //< reload >
+            Load_List();
+            //< /reload >
+            //----------------< /add_Entry_to_Database>--------------//
+
+
+        }
+
+        private void Search_Add_Entry_to_Database(String s)
+        {
+            //----------------< Search_add_Entry_to_Database>--------------//
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            string sNew_Search = s;
+            string sql_Text = "INSERT INTO tbl_Search ([SearchData]) VALUES(N'" + sNew_Search + "')";
+
+            SqlCommand cmd_Command = new SqlCommand(sql_Text, cn_connection);
+            cmd_Command.ExecuteNonQuery();
+            //-< Database >
+
+            //< reload >
+            Load_List();
+            //< /reload >
+            //----------------< /Search_add_Entry_to_Database>--------------//
+        }
+
+        private void Delete_Row_of_Database()
+        {
+            //----------------< delete_Row_of_Database>--------------//
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            DataRowView row = listBox1.SelectedItem as DataRowView;
+            string indexS = row["indexS"].ToString();
+            string sql_Text = "DELETE FROM tbl_Search WHERE(indexS = " + indexS + ")";
+
+            SqlCommand cmd_Command = new SqlCommand(sql_Text, cn_connection);
+            cmd_Command.ExecuteNonQuery();
+            //-< Database >
+
+            //< reload >
+            Load_List();
+            //< /reload >
+            //----------------< /delete_Row_of_Database>--------------//
+        }
+
+        private void Update_Entry_in_Database()
+        {
+            //----------------< update_Entry_in_Database>--------------//
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            DataRowView row = listBox1.SelectedItem as DataRowView;
+            string indexS = row["indexS"].ToString();
+            string sql_Text = "UPDATE tbl_Search SET [Searchdata] = N'" + textBox2.Text + "' WHERE indexS = " + indexS;
+
+            SqlCommand cmd_Command = new SqlCommand(sql_Text, cn_connection);
+            cmd_Command.ExecuteNonQuery();
+            //-< Database >
+
+            //< reload >
+            Load_List();
+            //< /reload >
+            //----------------< /update_Entry_in_Database>--------------//
+        }
+
+
+
+        #endregion /Database
 
         
     }
+
 }

@@ -26,7 +26,7 @@
     <ProductName>hs_1</ProductName>
     <PublisherName>HansukYu</PublisherName>
     <SuiteName>testWebBrowser</SuiteName>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -204,6 +204,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -244,6 +245,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\back.ico" />
+    <None Include="Resources\back1.ico" />
+    <None Include="Resources\new.ico" />
+    <None Include="Resources\forward.ico" />
+    <None Include="Resources\home.ico" />
+    <None Include="Resources\back2.ico" />
     <Content Include="SearchData.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

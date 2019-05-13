@@ -21,26 +21,26 @@ namespace WindowsFormsApp1
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-            load_List();
+            Load_List();
         }
         //-----------------------</region Form>------------//
         #endregion /Form
 
         #region Buttons
         //-----------------------<region button>------------//
-        private void button1_Click(object sender, EventArgs e) //삭제 버튼
+        private void Button1_Click(object sender, EventArgs e) //삭제 버튼
         {
-            delete_Row_of_Database();
+            Delete_Row_of_Database();
         }
 
-        private void button2_Click(object sender, EventArgs e) // 변경 버튼 
+        private void Button2_Click(object sender, EventArgs e) // 변경 버튼 
         {
-            update_Entry_in_Database();
+            Update_Entry_in_Database();
         }
 
-        private void button3_Click(object sender, EventArgs e) // 추가하기 버튼
+        private void Button3_Click(object sender, EventArgs e) // 추가하기 버튼
         {
-            add_Entry_to_Database();
+            Add_Entry_to_Database();
         }
 
 
@@ -49,7 +49,7 @@ namespace WindowsFormsApp1
 
         #region Methods
         //-----------------------<region method>------------//
-        private void load_List() {
+        private void Load_List() {
             //----------------< load_list>--------------//
             string cn_string = Properties.Settings.Default.SearchDataConnectionString;
 
@@ -74,7 +74,7 @@ namespace WindowsFormsApp1
             //----------------< /load_list>--------------//
         }
 
-        private void add_Entry_to_Database() {
+        private void Add_Entry_to_Database() {
             //----------------< add_Entry_to_Database>--------------//
             string cn_string = Properties.Settings.Default.SearchDataConnectionString;
 
@@ -90,14 +90,14 @@ namespace WindowsFormsApp1
             //-< Database >
 
             //< reload >
-            load_List();
+            Load_List();
             //< /reload >
             //----------------< /add_Entry_to_Database>--------------//
 
 
         }
 
-        private void delete_Row_of_Database() {
+        private void Delete_Row_of_Database() {
             //----------------< delete_Row_of_Database>--------------//
             string cn_string = Properties.Settings.Default.SearchDataConnectionString;
 
@@ -114,12 +114,12 @@ namespace WindowsFormsApp1
             //-< Database >
 
             //< reload >
-            load_List();
+            Load_List();
             //< /reload >
             //----------------< /delete_Row_of_Database>--------------//
         }
 
-        private void update_Entry_in_Database() {
+        private void Update_Entry_in_Database() {
             //----------------< update_Entry_in_Database>--------------//
             string cn_string = Properties.Settings.Default.SearchDataConnectionString;
 
@@ -136,7 +136,7 @@ namespace WindowsFormsApp1
             //-< Database >
 
             //< reload >
-            load_List();
+            Load_List();
             //< /reload >
             //----------------< /update_Entry_in_Database>--------------//
         }
@@ -144,7 +144,7 @@ namespace WindowsFormsApp1
         #endregion
 
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             DataRowView row = listBox1.SelectedItem as DataRowView;
             textBox1.Text = row["Searchdata"].ToString();
