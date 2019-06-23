@@ -7,21 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Web;
 using Moda.Korean.TwitterKoreanProcessorCS;
 using System.Data.SqlClient; //SQL SERVER LOCAL DB
+
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
         
-
+        bool http_complete = false;
         #region Function
         //-----------------------< Function >------------------------//
-        public bool IsContainKorean(string s) {
+        public bool IsContainKorean(string s)
+        {
             //한글 확인 함수
             char[] charArr = s.ToCharArray();
-            foreach (char c in charArr) {
-                if (char.GetUnicodeCategory(c) == System.Globalization.UnicodeCategory.OtherLetter) {
+            foreach (char c in charArr)
+            {
+                if (char.GetUnicodeCategory(c) == System.Globalization.UnicodeCategory.OtherLetter)
+                {
                     return true;
                 }
             }
@@ -30,9 +35,8 @@ namespace WindowsFormsApp1
 
         private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e) //1브라우저 처음에 ㄷ
         {
-            //브라우저가 표시완료하면 나오게 하는 함수
-            
-            //textBox1.Text = webBrowser1.Document.Url.ToString();
+            textBox1.Text = "";
+            textBox2.Text = "";
         }
 
         private void WebBrowser2_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -44,9 +48,74 @@ namespace WindowsFormsApp1
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.Button6_Click(sender, e);
+                if(textBox2.Text != null) { 
+                    this.Button6_Click(sender, e);
+                }
             }
         } //  텍스트창에서 엔터키 눌렀을때 호출 함수
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string SearchType = comboBox1.SelectedItem.ToString();
+
+                if (SearchType == "Google")
+                {
+                    Module_Google(textBox2.Text);
+                }
+                else if (SearchType == "Naver")
+                {
+                    Module_Naver(textBox2.Text);
+                }
+            }
+        } // 히스토리창 검색에서 엔터 치면
+
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == false & checkBox2.Checked == true & tabControl1.SelectedIndex == 0)
+            {
+                checkBox1.Checked = true;
+                checkBox2.Checked = false;
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 0;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            }
+            else if (checkBox1.Checked == true & checkBox2.Checked == false & tabControl1.SelectedIndex == 1)
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = true;
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 1;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            }
+            else if (checkBox1.Checked == true & checkBox2.Checked == false & tabControl1.SelectedIndex == 0)
+            {
+                checkBox1.Checked = true;
+                checkBox2.Checked = false;
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 0;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            }
+            else if (checkBox1.Checked == true & checkBox2.Checked == false & tabControl1.SelectedIndex == 1)
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = true;
+                tableLayoutPanel1.ColumnCount = 2;
+                tabControl1.SelectedIndex = 1;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            }
+
+
+        }
 
         private void CheckWeb(object sender, EventArgs e)
         {
@@ -101,7 +170,64 @@ namespace WindowsFormsApp1
 
         } // History 호출
 
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string SearchType = comboBox1.SelectedItem.ToString();
+            if (SearchType == "Google")
+            {
+                Module_Google("");
+            }
+            else if (SearchType == "Naver") {
+                Module_Naver("");
+            }
+        } //검색 히스토리 바뀌면 바로 적용 시키는 부분
 
+        private string decide_day()
+        {
+            string SearchPeriod = "";
+            string SearchType = comboBox1.SelectedItem.ToString();
+
+            if (SearchType == "Google")
+            {
+                if (comboBox2.SelectedItem.ToString() == "지난 1일")
+                {
+                    SearchPeriod = "d";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "지난 1주")
+                {
+                    SearchPeriod = "w";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "지난 1개월")
+                {
+                    SearchPeriod = "m";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "지난 1년")
+                {
+                    SearchPeriod = "y";
+                }
+
+            }
+            else if (SearchType == "Naver")
+            {
+                if (comboBox2.SelectedItem.ToString() == "지난 1일")
+                {
+                    SearchPeriod = "UnG7Owp0J1sssSdPdrZssssstrC-309562&nso=so%3Ar%2Cp%3A1d%2Ca%3Aall";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "지난 1주")
+                {
+                    SearchPeriod = "UnG6jlp0YidssCGqKPVssssssfR-387322&nso=so%3Ar%2Cp%3A1w%2Ca%3Aall";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "지난 1개월")
+                {
+                    SearchPeriod = "UnG6wwp0YiRssnfQhrlssssssE8-281674&nso=so%3Ar%2Cp%3A1m%2Ca%3Aall";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "지난 1년")
+                {
+                    SearchPeriod = "UnG61wp0JywssuoTQgGssssstN8-044529&nso=so%3Ar%2Cp%3A1y%2Ca%3Aall";
+                }
+            }
+            return SearchPeriod;
+        } //검색기간 계산 후 반환
         //-----------------------< Function >------------------------//
         #endregion /Function
 
@@ -114,11 +240,24 @@ namespace WindowsFormsApp1
             webBrowser2.Visible = true;
             tableLayoutPanel1.ColumnCount = 1;
             this.Text = "H browser";
+
+            // 검색엔진 설정 콤보박스
+            string[] Searching_Engine_name = { "Google", "Naver" };
+            comboBox1.Items.AddRange(Searching_Engine_name);
+            comboBox1.DisplayMember = "Google";
+            comboBox1.SelectedIndex = 0;
+
+            //날짜 설정 콤보박스
+            string[] Searching_day = { "모든 날짜", "지난 1일", "지난 1주", "지난 1개월", "지난 1년" };
+            comboBox2.Items.AddRange(Searching_day);
+            comboBox2.DisplayMember = "모든 날짜";
+            comboBox2.SelectedIndex = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Load_List(); //시작할 때 데이터베이스 연동
+            //Load_List(); //시작할 때 데이터베이스 연동
+
         }
 
         //-----------------------< /Form >-----------------------------//
@@ -127,17 +266,17 @@ namespace WindowsFormsApp1
         #region Button
         //-----------------------< region button >------------------------//
 
-        private void Button2_Click(object sender, EventArgs e) 
+        private void Button2_Click(object sender, EventArgs e)
         {
             webBrowser1.GoBack();
         }// 뒤로가기
 
-        private void Button3_Click(object sender, EventArgs e) 
+        private void Button3_Click(object sender, EventArgs e)
         {
             webBrowser1.GoForward();
         }// 앞으로가기
 
-        private void Button4_Click(object sender, EventArgs e) 
+        private void Button4_Click(object sender, EventArgs e)
         {
             webBrowser1.Refresh();
         }// 새로고침
@@ -149,43 +288,153 @@ namespace WindowsFormsApp1
 
         private void Button6_Click(object sender, EventArgs e)
         {
-            if (checkBox1.Checked) // 문장검색 기능 키면 파싱해서 검색보내버리기
+            string SearchType = comboBox1.SelectedItem.ToString();
+
+            if (SearchType == "Google")
             {
-                string searching_data = textBox1.Text; //게이
-                Search_Add_Entry_to_Database(searching_data); // 한글 검색 내용을 Database에 저장
-                string tmp1 = "https://www.google.com/search?&q=" + StemSample2(searching_data);
-                string tmp2 = "https://www.google.com/search?&q=" + searching_data;
+                Module_Google(textBox1.Text);
+            }
+            else if (SearchType == "Naver") {
+                Module_Naver(textBox1.Text);
+            }
+        } // 체크박스 처리버튼
+
+        private void Module_Google(string data)
+        {
+            string SearchPeriod = decide_day();
+            string searching_data;
+            if (checkBox2.Checked) // 히스토리 검색
+            {
+                searching_data = "";
+
+                if (data != "") { 
+                    listBox1.Items.Add(data);
+                }
+
+                for (int i = 0; i < listBox1.Items.Count; i++)
+                {
+                    searching_data += listBox1.Items[i];
+                    searching_data += " ";
+                }
+                string tmp1 = "https://www.google.com/search?&q=" + StemSample2(searching_data) + "&tbs=qdr:" + SearchPeriod;
+                webBrowser1.Navigate(tmp1);
+
+            }
+            else if (checkBox1.Checked) // 웹브라우저 두개 띄운 화면
+            {
+                searching_data = textBox1.Text;
+               
+                string tmp1 = "https://www.google.com/search?&q=" + StemSample2(searching_data) + "&tbs=qdr:" + SearchPeriod;
+                string tmp2 = "https://www.google.com/search?&q=" + searching_data + "&tbs=qdr:" + SearchPeriod;
                 webBrowser1.Navigate(tmp1);
                 webBrowser2.Navigate(tmp2);
-                
             }
-            else // 문장검색이 아니라면
+
+            else // 비교도, 히스토리도 아니라면 > 그냥 브라우저라면
             {
-                if (IsContainKorean(textBox1.Text))
+                string tmp = "";
+
+                if (IsContainKorean(data))
                 { // 한글을 친거면
-                    string tmp = " https://www.google.com/search?q=" + textBox1.Text + "&& aqs = chrome..69i57j0j69i61j0j69i61l2.7224j0j4 & sourceid = chrome & ie = UTF - 8";
+                    tmp = "https://www.google.com/search?q=" + data + "&& aqs = chrome..69i57j0j69i61j0j69i61l2.7224j0j4 & sourceid = chrome & ie = UTF - 8&tbs=qdr:" + SearchPeriod;
+                    webBrowser1.Navigate(tmp);
+                    //if (tableLayoutPanel1.ColumnCount == 2) { }
+                }
+                else
+                {
+                    tmp = "https://www.google.com/search?q=" + data + "&& aqs = chrome..69i57j0j69i61j0j69i61l2.7224j0j4 & sourceid = chrome & ie = UTF - 8&tbs=qdr:" + SearchPeriod;
+                    webBrowser1.Navigate(tmp);
+                }
+            }
+        }
+        private void Module_Naver(string data)
+        {
+            string SearchPeriod = decide_day();
+            string searching_data;
+
+            if (checkBox2.Checked) // 히스토리 검색
+            {
+                searching_data = "";
+
+                if (data != "")
+                {
+                    listBox1.Items.Add(data);
+                }
+
+                for (int i = 0; i < listBox1.Items.Count; i++)
+                {
+                    searching_data += listBox1.Items[i];
+                    searching_data += " ";
+                }
+                
+
+                string tmp1 = "https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=" + HttpUtility.UrlEncode(StemSample1(searching_data)) + "&tqi=" + SearchPeriod;
+                webBrowser1.Navigate(tmp1);
+
+            }
+            else if (checkBox1.Checked) // 웹브라우저 두개 띄운 화면
+            {
+                searching_data = data;
+                
+                string tmp1 = "https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=" + HttpUtility.UrlEncode(StemSample1(searching_data)) + "&tqi=" + SearchPeriod;
+                string tmp2 = "https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=" + HttpUtility.UrlEncode(searching_data) + "&tqi=" + SearchPeriod;
+                webBrowser1.Navigate(tmp1);
+                webBrowser2.Navigate(tmp2);
+            }
+            else // 비교도, 히스토리도 아니라면 > 그냥 브라우저라면
+            {
+                string tmp = "";
+                if (IsContainKorean(data))
+                { // 한글을 친거면
+                    tmp = "https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=" + HttpUtility.UrlEncode(data) + "&tqi=" + SearchPeriod;
                     webBrowser1.Navigate(tmp);
                 }
                 else
                 {
-                    webBrowser1.Navigate(textBox1.Text);
+                    tmp = "https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=" + data + "&tqi=" + SearchPeriod;
+                    webBrowser1.Navigate(tmp);
                 }
             }
-        } // 체크박스 처리버튼
-
+        }
+        
         private void Button1_Click(object sender, EventArgs e)
         {
-            Add_Entry_to_Database();
+            if (textBox2.Text != "")
+            {
+                if(textBox2.Text != "") {
+                    listBox1.Items.Add(textBox2.Text);
+                }
+                string SearchType = comboBox1.SelectedItem.ToString();
+
+                if (SearchType == "Google")
+                {
+                    Module_Google("");
+                }
+                else if (SearchType == "Naver")
+                {
+                    Module_Naver("");
+                }
+            }
+            //Add_Entry_to_Database();
         } // 추가하기
 
         private void Button8_Click(object sender, EventArgs e)
         {
-            Update_Entry_in_Database();
+            if (textBox2.Text != null)
+            {
+                if(textBox2.Text!= "") { 
+                    listBox1.Items[listBox1.SelectedIndex] = textBox2.Text;
+                }
+                Button6_Click(sender, e);
+            }
+            //Update_Entry_in_Database();
         } // 변경 하기
 
         private void Button7_Click(object sender, EventArgs e)
         {
-            Delete_Row_of_Database();
+            listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+            Button6_Click(sender,e);
+            //Delete_Row_of_Database();
         } // 삭제하기
 
 
@@ -207,6 +456,12 @@ namespace WindowsFormsApp1
             List<string> forth = new List<string>();
             List<string> fifth = new List<string>();
             List<string> final = new List<string>();
+            List<string> seq = new List<string>();
+            List<string> plus = new List<string>();
+            List<string> sub = new List<string>();
+            List<string> output = new List<string>();
+            List<string> input = new List<string>();
+            List<string> or = new List<string>();
 
             String sum = "";
 
@@ -227,7 +482,7 @@ namespace WindowsFormsApp1
                 else if (list[i].Contains("혹은"))
                 {
                     second.Remove(second.Last());
-                    second.Add(list[i - 1] + " OR " + list[i + 1]);
+                    second.Add(list[i - 1] + "OR" + list[i + 1]);
                     list.RemoveAt(i + 1);
                 }
                 else if (list[i].Contains("~"))
@@ -286,7 +541,7 @@ namespace WindowsFormsApp1
                     forth.Add("site:www.facebook.com");
                 else if (third[i] == "구글")
                     forth.Add("site:www.google.com");
-                else if (third[i] == "유투브")
+                else if (third[i] == "유튜브")
                     forth.Add("site:www.youtube.com");
                 else
                     forth.Add(third[i]);
@@ -294,10 +549,10 @@ namespace WindowsFormsApp1
 
             for (int i = 0; i < forth.Count; i++)
             {
-                if (forth[i].Contains("해쉬태그"))
+                if (forth[i] == "해시태그")
                 {
-                    fifth.Remove(fifth.Last());
-                    fifth.Add(" #" + forth[i - 1]);
+                    fifth.RemoveAt(i - 1);
+                    fifth.Add("%23" + forth[i - 1]);
 
                 }
                 else
@@ -306,24 +561,76 @@ namespace WindowsFormsApp1
 
             for (int i = 0; i < fifth.Count; i++)
             {
-                if (i == 0)
-                    final.Add(fifth[i] + " ");
-
+                if (fifth[i].Contains("-"))
+                    sub.Add(fifth[i]);
                 else if (fifth[i].Contains("-"))
-                    final.Add(fifth[i] + " ");
-                else if (fifth[i].Contains("#"))
-                    final.Add(fifth[i] + " ");
+                    or.Add(fifth[i]);
+                else if (fifth[i].Contains("site") || fifth[i].Contains("filetype"))
+                    seq.Add(fifth[i]);
                 else
-                    final.Add(" +" + fifth[i]);
+                    plus.Add(fifth[i]);
+
             }
 
-            sum = string.Join("", final);
+            output.AddRange(plus);
+            output.AddRange(or);
+            output.AddRange(sub);
+            output.AddRange(seq);
+
+            for (int i = 0; i < output.Count; i++)
+            {
+                if (i == 0)
+                    input.Add(output[i]);
+                else if (output[i].Contains("-"))
+                    input.Add(output[i]);
+                else if (fifth[i].Contains("#"))
+                    input.Add(output[i]);
+                else
+                    input.Add("+" + output[i]);
+            }
+
+            sum = string.Join("", input);
 
             return sum;
+        } //  구글 파싱
 
+        public string StemSample1(string input_Search_Data)
+        {
+            var tokens = TwitterKoreanProcessorCS.Tokenize(
+                              TwitterKoreanProcessorCS.Normalize(input_Search_Data));
+            var stemmedTokens = TwitterKoreanProcessorCS.Stem(tokens);
 
-        }
+            List<string> list = new List<string>();
+            List<string> second = new List<string>();
 
+            String sum = "";
+
+            foreach (var stemmedToken in stemmedTokens)
+            {
+                if (stemmedToken.Pos.ToString().Contains("Noun") || stemmedToken.Pos.ToString() == "Alpha" || stemmedToken.Pos.ToString() == "Punctuation" || stemmedToken.Pos.ToString() == "Adverb" || stemmedToken.Pos.ToString() == "Number")
+                {
+                    list.Add(stemmedToken.Text);
+                }
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Contains("제외"))
+                {
+                    second.Add(" -" + list[i - 1]);
+                    second.RemoveAt(i - 1);
+                }
+                else if (list[i].Contains("혹은"))
+                {
+                    second.Remove(second.Last());
+                    second.Add(list[i - 1] + "|" + list[i + 1]);
+                    list.RemoveAt(i + 1);
+                }
+                else
+                    second.Add(list[i]);
+            }
+            sum = string.Join("", second);
+            return sum;
+        } // 네이버 파싱
 
 
 
@@ -449,6 +756,28 @@ namespace WindowsFormsApp1
             //< /reload >
             //----------------< /update_Entry_in_Database>--------------//
         }
+
+        private string Output_Data()
+        {
+            string result = "";
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            string sql_Text = "SELECT Searchdata FROM tbl_Search";
+
+            DataTable tbl = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(sql_Text, cn_connection);
+            adapter.Fill(tbl);
+
+            //MessageBox.Show(tbl.ToString());
+            return result;
+        }
+
+
+
 
 
 

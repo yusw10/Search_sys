@@ -3,11 +3,6 @@ C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Windows
 C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.application
 C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
 C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
-C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\IronPython.dll
-C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\IronPython.Modules.dll
-C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Dynamic.dll
-C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Scripting.Debugging.dll
-C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Scripting.dll
 C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
 C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
 C:\Users\ice305\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache

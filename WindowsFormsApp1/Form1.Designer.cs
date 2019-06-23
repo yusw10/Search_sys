@@ -45,6 +45,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.webBrowser2 = new System.Windows.Forms.WebBrowser();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -64,7 +66,7 @@
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(734, 601);
+            this.webBrowser1.Size = new System.Drawing.Size(713, 601);
             this.webBrowser1.TabIndex = 1;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1_DocumentCompleted);
@@ -86,7 +88,7 @@
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Location = new System.Drawing.Point(0, -8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1058, 50);
+            this.groupBox1.Size = new System.Drawing.Size(1028, 50);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             // 
@@ -94,15 +96,15 @@
             // 
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(667, 19);
+            this.comboBox1.Location = new System.Drawing.Point(608, 19);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(57, 20);
+            this.comboBox1.Size = new System.Drawing.Size(83, 20);
             this.comboBox1.TabIndex = 8;
             // 
             // button6
             // 
             this.button6.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button6.Location = new System.Drawing.Point(738, 17);
+            this.button6.Location = new System.Drawing.Point(708, 17);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(48, 23);
             this.button6.TabIndex = 7;
@@ -114,7 +116,7 @@
             // 
             this.checkBox2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(895, 21);
+            this.checkBox2.Location = new System.Drawing.Point(865, 21);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(100, 16);
             this.checkBox2.TabIndex = 6;
@@ -126,7 +128,7 @@
             // 
             this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(801, 21);
+            this.checkBox1.Location = new System.Drawing.Point(771, 21);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(88, 16);
             this.checkBox1.TabIndex = 5;
@@ -140,18 +142,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(142, 19);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(502, 21);
+            this.textBox1.Size = new System.Drawing.Size(439, 21);
             this.textBox1.TabIndex = 4;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox1_KeyDown);
             // 
             // button5
             // 
             this.button5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button5.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.home;
+            this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.ForeColor = System.Drawing.SystemColors.Window;
-            this.button5.Location = new System.Drawing.Point(1002, 8);
+            this.button5.Location = new System.Drawing.Point(972, 8);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(34, 36);
             this.button5.TabIndex = 3;
@@ -160,7 +162,7 @@
             // 
             // button4
             // 
-            this.button4.BackgroundImage = global::WindowsFormsApp1.Properties.Resources._new;
+            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.ForeColor = System.Drawing.SystemColors.Menu;
@@ -174,7 +176,7 @@
             // 
             // button3
             // 
-            this.button3.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.forward;
+            this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.SystemColors.Window;
@@ -187,7 +189,7 @@
             // 
             // button2
             // 
-            this.button2.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.back2;
+            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.SystemColors.Window;
@@ -212,7 +214,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1058, 607);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1028, 607);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // tabControl1
@@ -224,11 +226,12 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.tabControl1.ItemSize = new System.Drawing.Size(30, 30);
-            this.tabControl1.Location = new System.Drawing.Point(743, 3);
+            this.tabControl1.Location = new System.Drawing.Point(722, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(312, 601);
+            this.tabControl1.Size = new System.Drawing.Size(303, 601);
             this.tabControl1.TabIndex = 2;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -236,7 +239,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(304, 563);
+            this.tabPage1.Size = new System.Drawing.Size(295, 563);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Web Browser2";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -248,12 +251,14 @@
             this.webBrowser2.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser2.Name = "webBrowser2";
             this.webBrowser2.ScriptErrorsSuppressed = true;
-            this.webBrowser2.Size = new System.Drawing.Size(298, 557);
+            this.webBrowser2.Size = new System.Drawing.Size(289, 557);
             this.webBrowser2.TabIndex = 0;
             this.webBrowser2.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser2_DocumentCompleted);
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.Controls.Add(this.comboBox2);
             this.tabPage2.Controls.Add(this.listBox1);
             this.tabPage2.Controls.Add(this.button8);
             this.tabPage2.Controls.Add(this.button7);
@@ -262,10 +267,28 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(304, 563);
+            this.tabPage2.Size = new System.Drawing.Size(295, 563);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Managing history";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(33, 237);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 21);
+            this.textBox3.TabIndex = 6;
+            this.textBox3.Text = "검색 기간 설정";
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(24, 264);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 20);
+            this.comboBox2.TabIndex = 5;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
             // 
             // listBox1
             // 
@@ -312,12 +335,13 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(232, 21);
             this.textBox2.TabIndex = 0;
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1058, 645);
+            this.ClientSize = new System.Drawing.Size(1028, 645);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -357,6 +381,8 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }
 

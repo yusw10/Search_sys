@@ -150,6 +150,40 @@ namespace WindowsFormsApp1
             textBox1.Text = row["Searchdata"].ToString();
         }
 
-     
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            //string searching_data = ""; //게이
+            Search_Add_Entry_to_Database(textBox1.Text); // 한글 검색 내용을 Database에 저장
+                                                         //Load_List();
+            listBox1.SelectedIndex = 0;
+            for (int i = 0; i < listBox1.Items.Count; i++)
+            {
+                string tmp = listBox1.SelectedItem.ToString();
+                MessageBox.Show(tmp);
+            }
+        }
+
+        private void Search_Add_Entry_to_Database(String s)
+        {
+            //----------------< Search_add_Entry_to_Database>--------------//
+            string cn_string = Properties.Settings.Default.SearchDataConnectionString;
+
+            //-< Database >
+            SqlConnection cn_connection = new SqlConnection(cn_string);
+            if (cn_connection.State != ConnectionState.Open) cn_connection.Open();
+
+            string sNew_Search = s;
+            string sql_Text = "INSERT INTO tbl_Search ([SearchData]) VALUES(N'" + sNew_Search + "')";
+
+            SqlCommand cmd_Command = new SqlCommand(sql_Text, cn_connection);
+            cmd_Command.ExecuteNonQuery();
+            //-< Database >
+
+            //< reload >
+            Load_List();
+            //< /reload >
+            //----------------< /Search_add_Entry_to_Database>--------------//
+        }
+
     }
 }
